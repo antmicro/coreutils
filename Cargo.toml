@@ -362,5 +362,5 @@ name = "coreutils"
 path = "src/bin/coreutils.rs"
 
 [patch.crates-io]
-platform-info = { git = "https://github.com/RReverser/platform-info", branch = "unknown-platform" }
+platform-info = { git = "https://github.com/RReverser/platform-info", branch = "master" }
 termsize = { git = "https://github.com/softprops/termsize", rev = "247add722759bd834e2b542885932e42c8cfff76" }

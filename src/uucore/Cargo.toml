@@ -27,14 +27,10 @@ platform-info = { version="<= 0.0.1", optional=true }
 # * "problem" dependencies (pinned)
 data-encoding = { version="~2.1", optional=true } ## data-encoding: require v2.1; but v2.2.0 breaks the build for MinSRV v1.31.0
 
-[target.'cfg(not(target_os = "wasi"))'.dependencies]
-time = { version="<= 0.1.42", optional=true }
-libc = { version="0.2.15, <= 0.2.66", optional=true } ## libc: initial utmp support added in v0.2.15; but v0.2.68 breaks the build for MinSRV v1.31.0
-
 # When compiling for WASI, we use nightly Rust for now anyway to get access to
 # some interesting but not yet stable functions.
 # Ignore MinSRV to get dependency versions that actually support WASI.
-[target.'cfg(target_os = "wasi").dependencies']
+[target.'cfg(target_os = "wasi")'.dependencies]
 time = { version="0.1.44", optional=true }
 libc = { version="0.2.69", optional=true }
 
