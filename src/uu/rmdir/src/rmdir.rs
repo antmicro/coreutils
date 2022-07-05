@@ -103,6 +103,19 @@ fn remove(dirs: Vec<String>, ignore: bool, parents: bool, verbose: bool) -> Resu
 }
 
 fn remove_dir(path: &Path, ignore: bool, verbose: bool) -> Result<(), i32> {
+    let path_metadata = match fs::symlink_metadata(path) {
+        Ok(m) => m,
+        Err(e) => {
+            show_error!("reading path metadata '{}': '{}'", path.display(), e);
+            return Err(1);
+        },
+    };
+
+    if !path_metadata.is_dir() {
+        show_error!("failed to remove '{}': Not a directory", path.display());
+        return Err(1);
+    }
+
     let mut read_dir = match fs::read_dir(path) {
         Ok(m) => m,
         Err(e) => {
