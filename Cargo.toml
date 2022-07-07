@@ -23,6 +23,7 @@ default = [ "feat_common_core" ]
 macos = [ "feat_os_macos" ]
 unix = [ "feat_os_unix" ]
 windows = [ "feat_os_windows" ]
+wasi = [ "feat_os_wasi" ]
 ## project-specific feature shortcodes
 nightly = []
 test_unimplemented = []

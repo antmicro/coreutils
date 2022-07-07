@@ -28,7 +28,7 @@ pub fn main() {
         if val == "1" && key.starts_with(env_feature_prefix) {
             let krate = key[env_feature_prefix.len()..].to_lowercase();
             match krate.as_ref() {
-                "default" | "macos" | "unix" | "windows" => continue, // common/standard feature names
+                "default" | "macos" | "unix" | "windows" | "wasi" => continue, // common/standard feature names
                 "nightly" | "test_unimplemented" => continue,         // crate-local custom features
                 "test" => continue, // over-ridden with 'uu_test' to avoid collision with rust core crate 'test'
                 s if s.starts_with(feature_prefix) => continue, // crate feature sets
