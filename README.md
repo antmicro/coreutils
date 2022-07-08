@@ -158,6 +158,24 @@ Set install parent directory (default value is /usr/local):
 $ make PREFIX=/my/path install
 ```
 
+### Wasm32-wasi ###
+
+For wasm32-wasi target some C libs need to be build with [wasi-SDK](https://github.com/WebAssembly/wasi-sdk) like the following:
+
+First install wasi-SDK
+```shell script
+export WASI_VERSION=14
+export WASI_VERSION_FULL=${WASI_VERSION}.0
+wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION_FULL}-linux.tar.gz
+tar xvf wasi-sdk-${WASI_VERSION_FULL}-linux.tar.gz
+```
+
+Then use clang installed in the wasi-sdk directory to build wasm32-wasi target:
+```shell script
+export WASI_SDK_PATH=`pwd`/wasi-sdk-${WASI_VERSION_FULL}
+CC="${WASI_SDK_PATH}/bin/clang --sysroot=${WASI_SDK_PATH}/share/wasi-sysroot" cargo build --target wasm32-wasi --release --features wasi
+```
+
 ### NixOS ###
 
 The [standard package set](https://nixos.org/nixpkgs/manual/) of [NixOS](https://nixos.org/)
