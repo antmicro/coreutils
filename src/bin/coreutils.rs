@@ -8,9 +8,12 @@
 use std::cmp;
 use std::collections::hash_map::HashMap;
 use std::ffi::OsString;
+use std::fs;
 use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 use std::process;
+
+use serde_json::json;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
@@ -45,9 +48,12 @@ fn name(binary_path: &Path) -> &str {
 fn main() {
     uucore::panic::mute_sigpipe_panic();
 
-    if cfg!(target_os = "wasi") {
-        if let Some(pwd) = std::env::var_os("PWD") {
-            std::env::set_current_dir(pwd).unwrap_or_else(|e| {
+    if cfg!(target_os = "wasi") {  
+        let cmd = json!({
+            "command": "get_cwd",
+        });
+        if let Ok(cwd) = fs::read_link(format!("/!{}", cmd)){
+            std::env::set_current_dir(cwd).unwrap_or_else(|e| {
                 println!("Could not set current working dir: {}", e);
             });
         }
