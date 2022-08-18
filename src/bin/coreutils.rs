@@ -8,12 +8,11 @@
 use std::cmp;
 use std::collections::hash_map::HashMap;
 use std::ffi::OsString;
-use std::fs;
 use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 use std::process;
-
 use serde_json::json;
+use std::fs;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
@@ -45,16 +44,24 @@ fn name(binary_path: &Path) -> &str {
     binary_path.file_stem().unwrap().to_str().unwrap()
 }
 
-fn main() {
+fn main()  -> io::Result<()>{
     uucore::panic::mute_sigpipe_panic();
 
-    if cfg!(target_os = "wasi") {  
-        let cmd = json!({
+    if cfg!(target_os = "wasi") {
+        let call = json!({
             "command": "get_cwd",
+            "buf_len": 2,
+            "buf_ptr": format!("{:?}", "{}".as_ptr()),
         });
-        if let Ok(cwd) = fs::read_link(format!("/!{}", cmd)){
+        let result = fs::read_link(format!("/!{}", call))?
+            .to_str()
+            .unwrap()
+            .trim_matches(char::from(0))
+            .to_string();
+        let (err, cwd) = result.split_once("\x1b").unwrap();
+        if err == "0" {
             std::env::set_current_dir(cwd).unwrap_or_else(|e| {
-                println!("Could not set current working dir: {}", e);
+                eprintln!("Could not set current working dir: {}", e);
             });
         }
     }
