@@ -346,6 +346,7 @@ dependencies = [
  "uu_whoami",
  "uu_yes",
  "uucore",
+ "wasi_ext_lib",
  "winapi-util",
 ]
 
@@ -2541,6 +2542,22 @@ name = "wasi"
 version = "0.10.0+wasi-snapshot-preview1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1a143597ca7c7793eff794def352d41792a93c481eb1042423ff7ff72ba2c31f"
+
+[[package]]
+name = "wasi"
+version = "0.11.0+wasi-snapshot-preview1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9c8d87e72b64a3b4db28d11ce29237c246188f4f51057d65a7eab63b7987e423"
+
+[[package]]
+name = "wasi_ext_lib"
+version = "0.1.0"
+source = "git+https://github.com/antmicro/wasi_ext_lib.git?branch=unstable#a59a2347cdeb312ff8e5ba75320c88b984727589"
+dependencies = [
+ "serde",
+ "serde_json",
+ "wasi 0.11.0+wasi-snapshot-preview1",
+]
 
 [[package]]
 name = "wasm-bindgen"

@@ -356,6 +356,9 @@ time = "0.1"
 unindent = "0.1"
 uucore = { version=">=0.0.6", package="uucore", path="src/uucore", features=["entries"] }
 
+[target.'cfg(target_os = "wasi")'.dependencies]
+wasi_ext_lib = { git = "https://github.com/antmicro/wasi_ext_lib.git", branch = "unstable", features = ["hterm"] }
+
 [target.'cfg(unix)'.dev-dependencies]
 rust-users = { version="0.10", package="users" }
 unix_socket = "0.5.0"
