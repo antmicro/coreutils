@@ -10,7 +10,7 @@
 use std::collections::HashMap;
 use std::str::from_utf8;
 
-static NAME: &str = "test";
+static NAMES: [&str; 2] = ["test", "["];
 
 pub fn uumain(args: impl uucore::Args) -> i32 {
     let args: Vec<_> = args.collect();
@@ -22,10 +22,10 @@ pub fn uumain(args: impl uucore::Args) -> i32 {
     if args.is_empty() {
         return 2;
     }
-    let args = if !args[0].ends_with(NAME.as_bytes()) {
-        &args[1..]
-    } else {
+    let args = if NAMES.iter().any(|name| args[0].ends_with(name.as_bytes())) {
         &args[..]
+    } else {
+        &args[1..]
     };
     let args = match args[0] {
         b"[" => match args[args.len() - 1] {

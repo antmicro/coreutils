@@ -54,6 +54,28 @@ pub fn main() {
 
     for krate in crates {
         match krate.as_ref() {
+            "uu_test" => {
+                mf.write_all(
+                    format!(
+                        "\
+                        \tmap.insert(\"test\", {krate}::uumain);\n\
+                        \t\tmap.insert(\"[\", {krate}::uumain);\n\
+                        ",
+                        krate = krate
+                    )
+                    .as_bytes(),
+                )
+                .unwrap();
+                tf.write_all(
+                    format!(
+                        "#[path=\"{dir}/test_{krate}.rs\"]\nmod test_{krate};\n",
+                        krate = krate,
+                        dir = util_tests_dir,
+                    )
+                    .as_bytes(),
+                )
+                .unwrap()
+            }
             k if k.starts_with(override_prefix) => {
                 mf.write_all(
                     format!(
