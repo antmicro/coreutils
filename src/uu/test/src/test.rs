@@ -30,7 +30,10 @@ pub fn uumain(args: impl uucore::Args) -> i32 {
     let args = match args[0] {
         b"[" => match args[args.len() - 1] {
             b"]" => &args[1..args.len() - 1],
-            _ => return 2,
+            _ => {
+                eprintln!("[: error: missing ]");
+                return 2
+            },
         },
         _ => &args[1..args.len()],
     };
