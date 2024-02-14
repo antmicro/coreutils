@@ -46,7 +46,7 @@ jobs:
         run: |
           source $HOME/.cargo/env
           export CC="${WASI_SDK_PATH}/bin/clang --sysroot=${WASI_SDK_PATH}/share/wasi-sysroot"
-          cargo +stage2 build --target wasm32-wasi --release
+          cargo +stage2 build --target wasm32-wasi --release --features wasi
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
